@@ -18,17 +18,17 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
             return "Hello World! Welcome to the root example endpoint";
         }
 
-        [HttpGet("/broadcaster")]
+        [HttpGet("broadcaster")]
         // Overrides the controller scope authentication settings and restricts it to broadcaster only
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresBroadcasterPermission")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresBroadcasterPermissions")]
         public ActionResult<string> OnlyForBroadcastersEyes()
         {
             return "Hello World! Welcome to the broadcaster endpoint";
         }
 
-        [HttpGet("/moderator")]
+        [HttpGet("moderator")]
         // Overrides the controller scope authentication settings and restricts it to moderator and broadcaster only
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresModeratorPermission")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresModeratorPermissions")]
         public ActionResult<string> OnlyForAtLeastModeratorEyes()
         {
             return "Hello World! Welcome to the moderator endpoint. Or maybe you are the broadcaster?";
