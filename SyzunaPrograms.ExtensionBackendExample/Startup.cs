@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,12 +45,12 @@ namespace SyzunaPrograms.ExtensionBackendExample
             {
                 options.AddPolicy("requiresBroadcasterPermissions", policy =>
                 {
-                    policy.RequireClaim("role", "broadcaster");
+                    policy.RequireClaim(ClaimTypes.Role, "broadcaster");
                 });
 
                 options.AddPolicy("requiresModeratorPermissions", policy =>
                 {
-                    policy.RequireClaim("role", "broadcaster", "moderator");
+                    policy.RequireClaim(ClaimTypes.Role, "broadcaster", "moderator");
                 });
             });
         }
