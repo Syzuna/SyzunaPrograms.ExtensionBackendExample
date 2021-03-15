@@ -6,7 +6,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("[controller")]
+    [Route("[controller]")]
     // All routes in this controller need to be authenticated with the Bearer Authentication Scheme
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ExampleController : ControllerBase
