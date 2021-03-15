@@ -17,7 +17,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
         // We do not override the controller scope authentication settings here because we want everybody with a valid JWT access this endpoint
         public ActionResult<TwitchJwtData> ForEveryViewer()
         {
-            return HttpContext.User.ExtracTwitchJwtData();
+            return HttpContext.User.ExtractTwitchJwtData();
         }
 
         [HttpGet("broadcaster")]
@@ -25,7 +25,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresBroadcasterPermissions")]
         public ActionResult<TwitchJwtData> OnlyForBroadcastersEyes()
         {
-            return HttpContext.User.ExtracTwitchJwtData();
+            return HttpContext.User.ExtractTwitchJwtData();
         }
 
         [HttpGet("moderator")]
@@ -33,7 +33,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "requiresModeratorPermissions")]
         public ActionResult<TwitchJwtData> OnlyForAtLeastModeratorEyes()
         {
-            return HttpContext.User.ExtracTwitchJwtData();
+            return HttpContext.User.ExtractTwitchJwtData();
         }
     }
 }

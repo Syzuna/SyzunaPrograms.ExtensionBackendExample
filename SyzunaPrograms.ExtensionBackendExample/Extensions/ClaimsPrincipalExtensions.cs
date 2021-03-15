@@ -8,7 +8,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static TwitchJwtData ExtracTwitchJwtData(this ClaimsPrincipal claimsPrincipal)
+        public static TwitchJwtData ExtractTwitchJwtData(this ClaimsPrincipal claimsPrincipal)
         {
             var isUnlinked = claimsPrincipal.FindFirst(x => x.Type == "is_unlinked");
             var opaqueUserId = claimsPrincipal.FindFirst(x => x.Type == "opaque_user_id");
