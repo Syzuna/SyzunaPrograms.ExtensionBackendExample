@@ -46,9 +46,13 @@ namespace SyzunaPrograms.ExtensionBackendExample.Services
             foreach (var channel in _queues.Keys)
             {
                 if (!_queues.TryGetValue(channel, out var queue))
-                    return;
+                    continue;
+
+                if (queue.IsEmpty)
+                    continue;
+
                 if (!queue.TryDequeue(out var message))
-                    return;
+                    continue;
 
                 await _extensionHttpClient.SendExtensionPubsubMessageAsync(message);
             }

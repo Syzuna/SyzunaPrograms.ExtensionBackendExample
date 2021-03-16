@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-SyzunaPrograms.ExtensionBackendExample-2B92D35D-E127-418B-81D0-741B24CD307E</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
