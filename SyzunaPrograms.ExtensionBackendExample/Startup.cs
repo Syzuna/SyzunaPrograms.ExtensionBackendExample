@@ -1,5 +1,3 @@
-using System;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Security.Claims;
+using SyzunaPrograms.ExtensionBackendExample.HttpClients;
 using SyzunaPrograms.ExtensionBackendExample.Services;
 
 namespace SyzunaPrograms.ExtensionBackendExample
@@ -55,6 +56,9 @@ namespace SyzunaPrograms.ExtensionBackendExample
                 });
             });
 
+            services.AddHttpClient<TwitchExtensionHttpClient>();
+
+            services.AddSingleton<ExtensionPubsubService>();
             services.AddSingleton<JwtService>();
         }
 

@@ -10,14 +10,16 @@ namespace SyzunaPrograms.ExtensionBackendExample.Services
 {
     public class JwtService
     {
+        private readonly IConfiguration _configuration;
         private readonly SymmetricSecurityKey _signingKey;
 
         public JwtService(IConfiguration configuration)
         {
-            _signingKey = new SymmetricSecurityKey(Convert.FromBase64String(configuration["Twitch:ExtensionSecret"]));
+            _configuration = configuration;
+            _signingKey = new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Twitch:ExtensionSecret"]));
         }
 
-        public string CreateExternalTwitchExtensionJwt(string channelId, string userId, Dictionary<string, string[]> pubsubPerms)
+        public string CreateExternalTwitchExtensionJwt(string channelId, Dictionary<string, string[]> pubsubPerms)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -25,7 +27,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("channel_id", channelId),
-                    new Claim("user_id", userId),
+                    new Claim("user_id", _configuration["Twitch:ExtensionOwnerId"]),
                     new Claim(ClaimTypes.Role, "external"),
                     new Claim("pubsub_perms", JsonSerializer.Serialize(pubsubPerms))
                 }),
