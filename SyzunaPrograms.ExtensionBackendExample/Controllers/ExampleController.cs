@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SyzunaPrograms.ExtensionBackendExample.Extensions;
 using SyzunaPrograms.ExtensionBackendExample.Models;
+using SyzunaPrograms.ExtensionBackendExample.Services;
 
 namespace SyzunaPrograms.ExtensionBackendExample.Controllers
 {
@@ -13,6 +15,27 @@ namespace SyzunaPrograms.ExtensionBackendExample.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ExampleController : ControllerBase
     {
+        private readonly JwtService _jwtService;
+
+        public ExampleController(JwtService jwtService)
+        {
+            _jwtService = jwtService;
+        }
+
+        [HttpGet("jwt")]
+        // Override the controller scope authentication settings to allow unauthenticated calls (Just for showcasing! Do not do this in production!)
+        [AllowAnonymous]
+        public ActionResult<string> CreateJwt()
+        {
+            var perms = new Dictionary<string, string[]>
+            {
+                { "send", new []{ "*" } }
+            };
+
+            return _jwtService.CreateExternalTwitchExtensionJwt("102943601", "102943601", perms);
+        }
+
+
         [HttpGet]
         // We do not override the controller scope authentication settings here because we want everybody with a valid JWT access this endpoint
         public ActionResult<TwitchJwtData> ForEveryViewer()
