@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SyzunaPrograms.ExtensionBackendExample.Models;
@@ -20,7 +21,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.HttpClients
         public TwitchExtensionHttpClient(HttpClient httpClient, IConfiguration configuration, JwtService jwtService)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://api.twitch.tv/extensions");
+            _httpClient.BaseAddress = new Uri("https://api.twitch.tv/helix/extensions/");
 
             _configuration = configuration;
             _jwtService = jwtService;
@@ -30,7 +31,7 @@ namespace SyzunaPrograms.ExtensionBackendExample.HttpClients
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, $"message/{message.ChannelId}");
+                var request = new HttpRequestMessage(HttpMethod.Post, "pubsub");
 
                 var perms = new Dictionary<string, string[]>
                 {
@@ -44,10 +45,10 @@ namespace SyzunaPrograms.ExtensionBackendExample.HttpClients
 
                 request.Content = new StringContent(JsonSerializer.Serialize(new
                 {
-                    ContentType = "application/json",
+                    BroadcasterId = message.ChannelId,
                     Message = JsonSerializer.Serialize(message.Message),
                     message.Targets
-                }));
+                }), Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.SendAsync(request);
 
